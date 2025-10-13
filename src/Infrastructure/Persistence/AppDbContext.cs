@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SaaS.src.Core.Entities; 
+using SaaS.src.Domain.Entities; 
 namespace SaaS.src.Infrastructure.Persistence 
 {
     public class AppDbContext : DbContext

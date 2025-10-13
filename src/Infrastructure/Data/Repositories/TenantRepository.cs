@@ -1,6 +1,8 @@
-﻿using SaaS.src.Application.Interfaces.TenantInterfaces;
-using SaaS.src.Core.Entities;
-using SaaS.src.Infrastructure.Persistance;
+﻿using Microsoft.EntityFrameworkCore;
+using SaaS.src.Application.DTOs.Requests.Tenant;
+using SaaS.src.Application.Interfaces.TenantInterfaces;
+using SaaS.src.Domain.Entities;
+using SaaS.src.Infrastructure.Persistence;
 
 namespace SaaS.src.Infrastructure.Data.Repositories
 {
@@ -19,20 +21,20 @@ namespace SaaS.src.Infrastructure.Data.Repositories
 
         
 
-        public async Task<Tenant> CreateTenantAsync(string tenantName)
+        public async Task<Tenant> CreateTenantAsync(CreateTenantRequest request)
         {
 
+            var existingTenant = await ExistsByNameAsync(request.TenantName);
 
-            if(await ExistsByNameAsync(tenantName))
+
+            if(existingTenant != null)
             {
-
-                throw new InvalidOperationException($"There is already a tenant with the name {tenantName}");
-
+                throw new InvalidOperationException($"There is already a tenant with the name {request.TenantName}");
             }
-
+            
 
             // Create new entity
-            var tenant = new Tenant(tenantName);
+            var tenant = new Tenant(request.TenantName, request.TenantIdentifier, request.TenantDescription);
 
 
             // Save into bd
@@ -44,19 +46,25 @@ namespace SaaS.src.Infrastructure.Data.Repositories
 
         }
 
-        public Task<bool> ExistsAsync(int tenantId)
+        public async Task<bool> ExistsAsync(int tenantId)
         {
-            throw new NotImplementedException();
+
+            return await _context.Tenants
+                .AnyAsync(t => t.Id == tenantId);
+
         }
 
-        public Task<bool> ExistsByNameAsync(string name)
+        public async Task<Tenant> ExistsByNameAsync(string name)
         {
-            throw new NotImplementedException();
+
+            return await _context.Tenants
+                .FirstOrDefaultAsync(t => t.TenantName.ToLower() == name.ToLower());
         }
 
-        public Task<Tenant> GetIdByAsync(int tenantId)
+        public async Task<Tenant> GetIdByAsync(int tenantId)
         {
-            throw new NotImplementedException();
+            return await _context.Tenants
+                .FirstOrDefaultAsync(t => t.Id == tenantId);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SaaS.src.Core.Entities
+namespace SaaS.src.Domain.Entities
 {
     // Tenant client
     public class Tenant 
@@ -28,26 +28,26 @@ namespace SaaS.src.Core.Entities
         // Tenant created date
         public DateTime? TenantDateCreated { get; set; }
 
-        public string SchemaName { get; set; }
+        //public string SchemaName { get; set; }
 
 
-        public Tenant(string name)
+        public Tenant()
+        {
+
+        }
+
+
+        public Tenant(string name, string tenantIdentifier, string tenantDescription)
         {
 
             TenantName = name;
-            SchemaName = null;
+            TenantIdentifier = tenantIdentifier;
+            TenantDescription = tenantDescription;
 
 
         }
 
-        //Logic to generate database safe schema names
-        private string GenerateSchemaName(string name)
-        {
-            return "tenant_" + Guid.NewGuid().ToString("N")[..8];
-
-        }
-
-
+  
 
 
 

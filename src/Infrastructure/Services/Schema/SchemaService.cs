@@ -1,6 +1,6 @@
 ﻿using SaaS.src.Application.Interfaces.SchemaInterfaces;
 using SaaS.src.Infrastructure.Data.Repositories;
-using SaaS.src.Infrastructure.Persistance;
+using SaaS.src.Infrastructure.Persistence;
 
 namespace SaaS.src.Infrastructure.Services.Schema
 {
@@ -34,7 +34,7 @@ namespace SaaS.src.Infrastructure.Services.Schema
 
 
 
-            var tenant = await _tenantRepository.CreateTenantAsync(tenantName);
+            //var tenant = await _tenantRepository.CreateTenantAsync(tenantName);
 
 
             

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Saas.Core.csproj" />
+	  <ProjectReference Include="..\Domain\Saas.Domain.csproj" />  
   </ItemGroup>
 
   <ItemGroup>

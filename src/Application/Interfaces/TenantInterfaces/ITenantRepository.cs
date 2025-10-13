@@ -1,4 +1,5 @@
-﻿using SaaS.src.Core.Entities;
+﻿using SaaS.src.Application.DTOs.Requests.Tenant;
+using SaaS.src.Domain.Entities;
 
 namespace SaaS.src.Application.Interfaces.TenantInterfaces
 {
@@ -9,9 +10,9 @@ namespace SaaS.src.Application.Interfaces.TenantInterfaces
 
         Task<bool> ExistsAsync(int tenantId);
 
-        Task<bool> ExistsByNameAsync(string name);
+        Task<Tenant> ExistsByNameAsync(string name);
 
-        Task<Tenant> CreateTenantAsync(string tenantName);
+        Task<Tenant> CreateTenantAsync(CreateTenantRequest request);
 
 
     }

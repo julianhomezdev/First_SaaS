@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Saas.Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Saas.Infrastructure.csproj" />
-    <ProjectReference Include="..\Core\Saas.Core.csproj" />
   </ItemGroup>
 
 </Project>
