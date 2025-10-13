@@ -28,7 +28,6 @@ namespace SaaS.src.Core.Entities
         // Tenant created date
         public DateTime? TenantDateCreated { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
 
 
 

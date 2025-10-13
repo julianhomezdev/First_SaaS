@@ -17,7 +17,7 @@ namespace SaaS.src.Infrastructure
 
             public DbSet<Tenant> Tenants { get; set; }
 
-        public DbSet<User> Users { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,26 +42,6 @@ namespace SaaS.src.Infrastructure
                     .HasDefaultValueSql("GETUTCDATE()");
             });
 
-            // Tenant user
-            modelBuilder.Entity<User>(entity =>
-            {
-
-                entity.HasKey(u => u.Id);
-
-                entity.HasIndex(u => u.UserIdentification)
-                    .IsUnique();
-
-                entity.HasOne(u => u.Tenant)
-                    .WithMany(t => t.Users)
-                    .HasForeignKey(u => u.TenantId)
-                    // If one tenant is deleted her users too
-                    .OnDelete(DeleteBehavior.Cascade);
-
-
-
-
-
-            });
         }
 
     }
