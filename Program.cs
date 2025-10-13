@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SaaS.src.Infrastructure.Persistance;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Register dbcontext
-builder.Services.AddDbContext<SaaS.src.Infrastructure.AppDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 

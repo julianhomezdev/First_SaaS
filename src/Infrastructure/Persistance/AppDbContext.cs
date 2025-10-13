@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Identity.Client;
 using SaaS.src.Core.Entities;
 
-namespace SaaS.src.Infrastructure
+namespace SaaS.src.Infrastructure.Persistance
 {
     public class AppDbContext : DbContext
     {
