@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using SaaS.src.Infrastructure.Persistance;
+using SaaS.src.Application.Interfaces.TenantInterfaces;
+using SaaS.src.Infrastructure.Data.Repositories;
+using SaaS.src.Infrastructure.Persistence;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 
 // Register dbcontext
 builder.Services.AddDbContext<AppDbContext>(options =>
