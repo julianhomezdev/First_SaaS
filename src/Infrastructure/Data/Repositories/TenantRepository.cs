@@ -18,8 +18,58 @@ namespace SaaS.src.Infrastructure.Data.Repositories
 
         }
 
+        public async Task CreateSchemaPerTenant(CreateTenantRequest request)
+        {
 
-        
+            
+
+
+            var sql = $@"
+
+                        IF NOT EXISTS (SELECT * FROM sys.Schemas WHERE name = '{request.TenantName}')
+                        BEGIN
+                            EXEC ('CREATE SCHEMA {request.TenantName}')
+                        END
+                    ";
+
+            var schema = await _context.Database.ExecuteSqlRawAsync(sql);
+
+            
+        }
+
+        // 
+
+        public async Task CreateTablesInSchema(string schemaName)
+        {
+
+            schemaName = schemaName.Trim();
+
+
+            var createTablesSql = $@"
+
+                                        
+                                        IF NOT EXISTS(SELECT * FROM sys.tables t
+                                                        JOIN sys.schemas s ON t.schema_id = s.schema_id
+                                                         WHERE s.name = '{schemaName}' AND t.name = 'Users')
+
+                                        BEGIN 
+                                               
+                                            CREATE TABLE [{schemaName}].[Users]
+                                            (
+                                                   Id INT PRIMARY KEY(1,1),
+                                                   UserName VARCHAR(100) NOT NULL,
+Email NVARCHAR(100) NOT NULL,
+CreatedAt DATETIME2 DEFAULT GETDATE(),
+IsActive BIT DEFAULT 1
+
+                                            )
+                                                
+
+
+                                    ";
+
+
+        }
 
         public async Task<Tenant> CreateTenantAsync(CreateTenantRequest request)
         {

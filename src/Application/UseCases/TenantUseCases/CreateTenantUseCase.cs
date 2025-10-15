@@ -34,12 +34,26 @@ namespace SaaS.src.Application.UseCases.TenantUseCases
 
                 _logger.LogInformation("Creating new tenant");
 
+                // Validations
+
+                if (string.IsNullOrWhiteSpace(request.TenantName))
+                    throw new ArgumentException("The tenant name is required");
+
+
+                if (request.TenantName.Length > 50)
+                    throw new ArgumentException("The tenant name cannot exceed 50 characters");
+
+                
+
 
 
                 // Delegate creation to the repository
                 var tenant = await _tenantRepository.CreateTenantAsync(request);
 
                 _logger.LogInformation("Tenant created succesfully}");
+
+
+                await _tenantRepository.CreateSchemaPerTenant(request);
 
                 // In the future, request email to send a welcome message to the SaaS
 

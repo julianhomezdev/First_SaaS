@@ -45,6 +45,7 @@ namespace SaaS.src.Presentation.Controllers.Tenant
                 _logger.LogInformation("Tenant created succesfully");
 
 
+
                 return Ok(new
                 {
 

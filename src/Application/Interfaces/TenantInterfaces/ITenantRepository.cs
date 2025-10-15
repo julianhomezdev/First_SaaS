@@ -14,6 +14,10 @@ namespace SaaS.src.Application.Interfaces.TenantInterfaces
 
         Task<Tenant> CreateTenantAsync(CreateTenantRequest request);
 
+        Task CreateSchemaPerTenant(CreateTenantRequest request);
+
+        Task CreateTablesInSchema(string schemaName);
+
 
     }
 }

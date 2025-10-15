@@ -9,6 +9,7 @@ namespace SaaS.src.Infrastructure.Persistence
         }
 
         public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
