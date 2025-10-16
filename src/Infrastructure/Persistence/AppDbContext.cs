@@ -11,9 +11,13 @@ namespace SaaS.src.Infrastructure.Persistence
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Role> Roles { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
 
             modelBuilder.Entity<Tenant>(entity =>
             {
@@ -28,6 +32,49 @@ namespace SaaS.src.Infrastructure.Persistence
                 entity.Property(e => e.TenantDateCreated)
                     .HasDefaultValueSql("GETUTCDATE()");
             });
+
+
+            // Roles table config
+            modelBuilder.Entity<Role>(entity =>
+            {
+
+
+                entity.HasKey(r => r.Id);
+                    
+                
+
+
+            });
+
+
+            // Users table config
+            modelBuilder.Entity<User>(entity =>
+
+
+                {
+                    entity.HasKey(e => e.Id);
+
+                    // The dni is unique
+                    entity.HasIndex(e => e.UserDni)
+                        .IsUnique();
+
+
+                    entity.Property(e => e.UserCreateDate)
+                        .HasDefaultValueSql("GETUTCDATE()");
+                       
+
+
+                    // Config fk
+                    entity.HasOne(u => u.UserRole)
+                        .WithMany(r => r.Users)
+                        .HasForeignKey(u => u.UserRoleId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+
+                });
+
+
+
         }
     }
 }
