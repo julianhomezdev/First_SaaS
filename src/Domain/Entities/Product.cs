@@ -11,6 +11,10 @@ namespace SaaS.src.Domain.Entities
         public string ProductReference { get; set; }
         public decimal ProductPrice { get; set; }
 
+        // Relation with producttype
+        public int ProductTypeId { get; set; }
+        public ProductType ProductType { get; set; }
+
 
         public ICollection<ProductsSizes> ProductSizes { get; set; } = new List<ProductsSizes>();
 

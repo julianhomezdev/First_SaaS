@@ -18,10 +18,28 @@ namespace SaaS.src.Infrastructure.Persistence
 
         public DbSet<ProductsSizes> ProductsSizes { get; set; }
 
+        public DbSet<ProductType> ProductTypes { get; set; } 
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
+            // ProductTypes config
+            modelBuilder.Entity<ProductType>(entity =>
+            {
+
+                entity.HasKey(pt => pt.Id);
+
+                entity.Property(pt => pt.ProductTypeName)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
+
+
+            });
+
 
             // ProductsSizes config
             modelBuilder.Entity<ProductsSizes>(entity =>
@@ -147,6 +165,12 @@ namespace SaaS.src.Infrastructure.Persistence
 
                 // Product quantity config
                 entity.Ignore(p => p.ProductTotalQuantity);
+
+                // Relation with ProductType(1:N)
+                entity.HasOne(p => p.ProductType)
+                    .WithMany(pt => pt.Products)
+                    .HasForeignKey(p => p.ProductTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
 
             });
