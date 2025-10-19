@@ -8,7 +8,6 @@ namespace SaaS.src.Infrastructure.Persistence
         {
         }
 
-        public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<User> Users { get; set; }
@@ -19,19 +18,7 @@ namespace SaaS.src.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
 
 
-            modelBuilder.Entity<Tenant>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.HasIndex(e => e.TenantIdentifier)
-                    .IsUnique();
-
-                entity.Property(e => e.IsActive)
-                    .HasDefaultValue(true);
-
-                entity.Property(e => e.TenantDateCreated)
-                    .HasDefaultValueSql("GETUTCDATE()");
-            });
+   
 
 
             // Roles table config

@@ -1,8 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SaaS.src.Application.Interfaces.TenantInterfaces;
-using SaaS.src.Application.Interfaces.TenantUseCases;
-using SaaS.src.Application.UseCases.TenantUseCases;
-using SaaS.src.Infrastructure.Data.Repositories;
+
 using SaaS.src.Infrastructure.Persistence;
 
 
@@ -13,8 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ITenantRepository, TenantRepository>();
-builder.Services.AddScoped<ICreateTenantUseCase, CreateTenantUseCase>();
 
 // Register dbcontext
 builder.Services.AddDbContext<AppDbContext>(options =>
