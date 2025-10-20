@@ -7,6 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="12.0.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+		<PackageReference Include="MediatR" Version="13.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,11 +25,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="src\Application\DTOs\Requests\" />
-	  <Folder Include="src\Application\Interfaces\" />
-	  <Folder Include="src\Application\UseCases\" />
-	  <Folder Include="src\Infrastructure\Data\Repositories\" />
 	  <Folder Include="src\Infrastructure\Services\" />
-	  <Folder Include="src\Presentation\Controllers\" />
 	</ItemGroup>
 </Project>

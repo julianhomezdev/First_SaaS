@@ -1,5 +1,10 @@
+using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-
+using SaaS.src.Application.Behaviors;
+using SaaS.src.Application.Interfaces.Repositories;
+using SaaS.src.Application.UseCases.Product.Commands.Create;
+using SaaS.src.Infrastructure.Data.Repositories;
 using SaaS.src.Infrastructure.Persistence;
 
 
@@ -16,7 +21,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+// Repositories
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateProductCommandHandler).Assembly);
+});
+
+// Global config pipeline
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+// Validators register
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
+
+
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())

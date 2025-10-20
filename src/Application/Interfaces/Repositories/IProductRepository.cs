@@ -1,0 +1,20 @@
+﻿using SaaS.src.Domain.Entities;
+
+namespace SaaS.src.Application.Interfaces.Repositories
+{
+    public interface IProductRepository
+    {
+
+
+
+
+        // Create a new product
+        Task<Product> CreateProductAsync(Product product);
+
+        Task<bool> ExistsByReferenceAsync(string reference, int? excludeId = null);
+
+
+
+
+    }
+}
