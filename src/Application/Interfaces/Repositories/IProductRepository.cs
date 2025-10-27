@@ -13,6 +13,8 @@ namespace SaaS.src.Application.Interfaces.Repositories
 
         Task<bool> ExistsByReferenceAsync(string reference, int? excludeId = null);
 
+        Task<IEnumerable<Product>> GetAllAsync(List<int>? sizeIds= null);
+
 
 
 

@@ -2,6 +2,7 @@
 using SaaS.src.Application.Interfaces.Repositories;
 using MediatR;
 using SaaS.src.Application.Common;
+using SaaS.src.Domain.Entities;
 
 namespace SaaS.src.Application.UseCases.Product.Commands.Create
 {
@@ -35,6 +36,19 @@ namespace SaaS.src.Application.UseCases.Product.Commands.Create
                 ProductTypeId = request.ProductTypeId
 
             };
+
+            foreach( var sizeRequest in request.Sizes)
+            {
+
+                product.ProductSizes.Add(new ProductsSizes
+                {
+
+                    SizeId = sizeRequest.SizeId,
+                    SizeStock = sizeRequest.Stock
+
+                });
+
+            }
 
             // Save into bd
             var createdProduct = await _productRepository.CreateProductAsync(product);

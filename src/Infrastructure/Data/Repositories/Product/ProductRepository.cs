@@ -36,5 +36,21 @@ namespace SaaS.src.Infrastructure.Data.Repositories
 
 
         }
+
+        public async Task<IEnumerable<Product>> GetAllAsync(List<int>? sizeIds = null)
+        {
+            var query = _context.Products
+                .Include(p => p.ProductSizes)
+                .ThenInclude(ps => ps.Size)
+                .AsNoTracking();
+
+            
+            if (sizeIds != null && sizeIds.Any())
+            {
+                query = query.Where(p => p.ProductSizes.Any(ps => sizeIds.Contains(ps.SizeId)));
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }
