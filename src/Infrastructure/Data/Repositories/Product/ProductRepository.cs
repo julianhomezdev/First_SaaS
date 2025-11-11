@@ -18,6 +18,11 @@ namespace SaaS.src.Infrastructure.Data.Repositories
 
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
 
         // Create a product
         public async Task<Product> CreateProductAsync(Domain.Entities.Product product)
@@ -30,11 +35,14 @@ namespace SaaS.src.Infrastructure.Data.Repositories
 
         public async Task<bool> ExistsByReferenceAsync(string reference, int? excludeId = null)
         {
+            var query = _context.Products.Where(p => p.ProductReference == reference);
 
-            return await _context.Products
-                .AnyAsync(p => p.ProductReference.ToLower() == reference.ToLower());
+            if (excludeId.HasValue)
+            {
+                query = query.Where(p => p.Id != excludeId.Value);
+            }
 
-
+            return await query.AnyAsync();
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync(List<int>? sizeIds = null)
@@ -51,6 +59,36 @@ namespace SaaS.src.Infrastructure.Data.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<Product> GetByIdAsync(int id)
+        {
+
+            return await _context.Products
+                .Include(p => p.ProductSizes) 
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+
+        public async Task DeleteAsync(int productId)
+        {
+
+            var product = await _context.Products
+                .Include(p => p.ProductSizes)
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+
+            if(product != null)
+            {
+
+
+                _context.ProductsSizes.RemoveRange(product.ProductSizes);
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+            }
+
         }
     }
 }

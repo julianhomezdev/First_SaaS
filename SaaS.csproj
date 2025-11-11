@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="15.1.0" />
+		<PackageReference Include="EPPlus" Version="7.0.0" />
 		<PackageReference Include="FluentValidation" Version="12.0.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
 		<PackageReference Include="MediatR" Version="13.0.0" />
@@ -26,6 +27,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="src\Infrastructure\Services\" />
+	  <Folder Include="src\Presentation\wwwroot\images\products\" />
 	</ItemGroup>
 </Project>

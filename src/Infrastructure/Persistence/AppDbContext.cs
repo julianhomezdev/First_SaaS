@@ -20,6 +20,10 @@ namespace SaaS.src.Infrastructure.Persistence
 
         public DbSet<ProductType> ProductTypes { get; set; } 
 
+        public DbSet<Invoice> Invoices { get; set; }
+
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -161,7 +165,7 @@ namespace SaaS.src.Infrastructure.Persistence
                 // Product price config
                 entity.Property(p => p.ProductPrice)
                     .IsRequired()
-                    .HasPrecision(18, 2);
+                    .HasColumnType("decimal(18,3)");
 
                 // Product quantity config
                 entity.Ignore(p => p.ProductTotalQuantity);
@@ -173,6 +177,32 @@ namespace SaaS.src.Infrastructure.Persistence
                     .OnDelete(DeleteBehavior.Restrict);
 
 
+            });
+
+            modelBuilder.Entity<Invoice>(entity =>
+            {
+
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.InvoiceNumber).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.CustomerName).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.CustomerDocument).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.Subtotal).HasColumnType("decimal(18,3)");
+                entity.Property(e => e.Tax).HasColumnType("decimal(18,3)");
+                entity.Property(e => e.Total).HasColumnType("decimal(18,3)");
+
+
+            });
+
+            modelBuilder.Entity<InvoiceItem>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18,3)");
+                entity.Property(e => e.Total).HasColumnType("decimal(18,3)");
+
+                entity.HasOne(e => e.Invoice)
+                    .WithMany(i => i.Items)
+                    .HasForeignKey(e => e.InvoiceId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 

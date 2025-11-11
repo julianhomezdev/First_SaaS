@@ -9,7 +9,9 @@
         public decimal ProductPrice { get; set; }
         public int ProductTypeId { get; set; }
 
-        public List<ProductSizeRequest> Sizes { get; set; } = new List<ProductSizeRequest>();
+        public IFormFile? ImageFile { get; set; }
+
+        public string Sizes { get; set; }
 
     }
 }

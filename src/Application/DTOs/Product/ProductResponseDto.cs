@@ -11,7 +11,8 @@ namespace SaaS.src.Application.DTOs.Product
         public string ProductReference { get; set; }
         public decimal ProductPrice { get; set; }
         public int ProductTotalQuantity { get; set; }
-        public List<ProductsSizeDto> ProductSizes { get; set; } = new List<ProductsSizeDto>(); 
+        public string? ImageUrl { get; set; }
+        public List<ProductsSizeDto> Sizes { get; set; } = new List<ProductsSizeDto>(); 
     
     }
 }

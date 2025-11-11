@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace SaaS.src.Domain.Entities
 {
@@ -20,6 +21,8 @@ namespace SaaS.src.Domain.Entities
 
         // General Quantity (not map)
         public int ProductTotalQuantity => ProductSizes?.Sum(ps => ps.SizeStock) ?? 0;
+
+        public string? ImageUrl { get; set; }
 
     }
 }

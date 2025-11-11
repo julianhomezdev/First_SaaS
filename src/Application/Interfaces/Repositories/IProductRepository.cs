@@ -15,6 +15,12 @@ namespace SaaS.src.Application.Interfaces.Repositories
 
         Task<IEnumerable<Product>> GetAllAsync(List<int>? sizeIds= null);
 
+        Task <Product> GetByIdAsync(int productId);
+
+        Task DeleteAsync(int productId);
+        Task SaveChangesAsync();
+
+
 
 
 
