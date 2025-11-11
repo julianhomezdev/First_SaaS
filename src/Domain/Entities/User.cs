@@ -12,7 +12,7 @@ namespace SaaS.src.Domain.Entities
         public string IdentificationNumber { get; set; }
 
         public string PasswordHash { get; set; }
-        s
+        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
