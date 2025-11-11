@@ -13,8 +13,13 @@ using SaaS.src.Infrastructure.Data.Repositories;
 using SaaS.src.Infrastructure.Data.Repositories.File;
 using SaaS.src.Infrastructure.Data.Repositories.Invoice;
 using SaaS.src.Infrastructure.Data.Repositories.Size;
+using SaaS.src.Infrastructure.Data.Repositories.Users;
 using SaaS.src.Infrastructure.Persistence;
 using SaaS.src.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +75,8 @@ builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IExcelRepository, ExcelService>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<ExportSalesReportUseCase>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
@@ -110,6 +117,23 @@ builder.Services.AddCors(options =>
 builder.Services.Configure<FileStorageSettings>(
     builder.Configuration.GetSection("FileStorage"));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = true;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
 var app = builder.Build();
 
 // Crear estructura de carpetas
@@ -141,8 +165,10 @@ app.UseStaticFiles(new StaticFileOptions
 
 
 
-//app.Urls.Add("http://localhost:5174");
+
+
 app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

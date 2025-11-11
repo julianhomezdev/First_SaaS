@@ -30,6 +30,8 @@ namespace SaaS.src.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
 
 
+
+
             // ProductTypes config
             modelBuilder.Entity<ProductType>(entity =>
             {
@@ -113,36 +115,8 @@ namespace SaaS.src.Infrastructure.Persistence
 
 
                 {
-                    entity.HasKey(u => u.Id);
-
-
-                    // User name config
-                    entity.Property(u => u.UserName)
-                        .IsRequired();
-
-                    // User lastname config
-                    entity.Property(u => u.UserLastName)
-                        .IsRequired();
-
-
-                    // DNI CONFIG
-                    // The dni is unique
-                    entity.HasIndex(u => u.UserDni)
-                        .IsUnique();
-
-                    entity.Property(u => u.UserDni)
-                        .HasMaxLength(10);
-
-
-                    entity.Property(u => u.UserCreateDate)
-                        .HasDefaultValueSql("GETUTCDATE()");
-                       
-
-                    // Config fk
-                    entity.HasOne(u => u.UserRole)
-                        .WithMany(r => r.Users)
-                        .HasForeignKey(u => u.UserRoleId)
-                        .OnDelete(DeleteBehavior.Restrict);
+                    modelBuilder.Entity<User>().HasIndex(u => u.IdentificationNumber).IsUnique();
+                    modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
 
 
                 });

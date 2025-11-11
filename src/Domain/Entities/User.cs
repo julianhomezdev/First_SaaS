@@ -15,6 +15,9 @@ namespace SaaS.src.Domain.Entities
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        public int RoleId { get; set; }
+
+        public Role Role { get; set; }
 
 
     }
