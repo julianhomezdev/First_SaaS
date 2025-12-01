@@ -1,5 +1,4 @@
-﻿using Microsoft.Identity.Client;
-
+﻿
 namespace SaaS.src.Application.DTOs.Product
 {
     public class ProductsSizeDto
