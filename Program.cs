@@ -23,6 +23,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 
 // AL PRINCIPIO de Program.cs, ANTES de builder.Build()
 builder.WebHost.ConfigureLogging(logging =>
@@ -57,16 +60,15 @@ builder.Services.AddAutoMapper(cfg => {
 });
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        sqlServerOptions =>
-        {
-            sqlServerOptions.EnableRetryOnFailure(
-                maxRetryCount: 3,
-                maxRetryDelay: TimeSpan.FromSeconds(5),
-                errorNumbersToAdd: null);
-            sqlServerOptions.CommandTimeout(60); 
-        });
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorCodesToAdd: null);
+        npgsqlOptions.CommandTimeout(60);
+    });
     options.EnableSensitiveDataLogging(builder.Environment.IsDevelopment());
 });
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -76,6 +78,7 @@ builder.Services.AddScoped<IExcelRepository, ExcelService>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<ExportSalesReportUseCase>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
@@ -97,6 +100,7 @@ builder.Services.AddCors(options =>
 
                   .SetIsOriginAllowedToAllowWildcardSubdomains()
                   .AllowAnyHeader()
+
                   .AllowAnyMethod()
                   .WithExposedHeaders("*");
 

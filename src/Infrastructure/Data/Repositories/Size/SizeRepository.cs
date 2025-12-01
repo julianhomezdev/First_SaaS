@@ -23,5 +23,15 @@ namespace SaaS.src.Infrastructure.Data.Repositories.Size
         {
             return await _context.Sizes.FindAsync(id);
         }
+
+        public async Task<SaaS.src.Domain.Entities.Size> CreateSizeAsync(SaaS.src.Domain.Entities.Size size)
+        {
+
+            await _context.Sizes.AddAsync(size);
+            await _context.SaveChangesAsync();
+            return size;
+
+
+        }
     }
 }

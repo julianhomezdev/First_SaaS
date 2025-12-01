@@ -7,5 +7,6 @@ namespace SaaS.src.Application.Interfaces.Repositories
 
         Task<List<Size>> GetAllSizesAsync();
         Task<Size?> GetSizeByIdAsync(int id);
+        Task<Size?> CreateSizeAsync(Size size);
     }
 }
